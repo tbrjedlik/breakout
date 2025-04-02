@@ -4,8 +4,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #000;
 }
 canvas {
-    border: 1px solid black;
+    border: 1px solid #fff;
 }
