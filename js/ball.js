@@ -1,10 +1,11 @@
 export class Ball {
-    constructor(x, y, radius, speedX, speedY) {
+    constructor(x, y, radius, speedX, speedY, canvas) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.speedX = speedX;
         this.speedY = speedY;
+        this.canvas = canvas;
     }
 
     draw(ctx) {
@@ -19,10 +20,10 @@ export class Ball {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+        if (this.x + this.radius > this.canvas.width || this.x - this.radius < 0) {
             this.speedX = -this.speedX;
         }
-        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+        if (this.y + this.radius > this.canvas.height || this.y - this.radius < 0) {
             this.speedY = -this.speedY;
         }
     }
