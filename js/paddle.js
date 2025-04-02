@@ -35,4 +35,12 @@ export default class Paddle {
             this.center -= 7;
         }
     }
+
+    draw(ctx) {
+        ctx.beginPath();
+        ctx.rect(this.center, this.canvas.height - this.height - 10, this.width, this.height);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+    }
 }
