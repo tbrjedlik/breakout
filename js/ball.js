@@ -1,11 +1,12 @@
 export class Ball {
-    constructor(x, y, radius, speedX, speedY, canvas) {
+    constructor(x, y, radius, speedX, speedY, canvas, paddle) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.speedX = speedX;
         this.speedY = speedY;
         this.canvas = canvas;
+        this.paddle = paddle;
     }
 
     draw(ctx) {
@@ -25,6 +26,17 @@ export class Ball {
         }
         if (this.y + this.radius > this.canvas.height || this.y - this.radius < 0) {
             this.speedY = -this.speedY;
+        }
+
+        if (
+            this.y + this.radius > this.canvas.height - this.paddle.height - 10 &&
+            this.x > this.paddle.center &&
+            this.x < this.paddle.center + this.paddle.width
+        ) {
+            this.speedY = -Math.abs(this.speedY);
+
+            const hitPoint = (this.x - this.paddle.center) / (this.paddle.width / 2);
+            this.speedX = hitPoint * 2;
         }
     }
 }
