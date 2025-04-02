@@ -34,6 +34,9 @@ export class Ball {
             this.x < this.paddle.center + this.paddle.width
         ) {
             this.speedY = -Math.abs(this.speedY);
+
+            const hitPoint = (this.x - this.paddle.center) / (this.paddle.width / 2);
+            this.speedX = hitPoint * 1.5;
         }
     }
 }
