@@ -59,20 +59,18 @@ class BrickGrid {
         for (let row = 0; row < this.brickRowCount; row++) {
             for (let col = 0; col < this.brickColumnCount; col++) {
                 const brick = this.bricks[row][col];
-                if (brick.status === 1) {
+                if (brick && brick.status === 1) {
                     if (
                         ball.x > brick.x &&
                         ball.x < brick.x + brick.width &&
                         ball.y > brick.y &&
                         ball.y < brick.y + brick.height
                     ) {
-                        brick.status = 0;
-                        return true;
+                        this.bricks[row][col] = null;
                     }
                 }
             }
         }
-        return false;
     }
 }
 export default BrickGrid;
