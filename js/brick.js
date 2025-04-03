@@ -67,10 +67,12 @@ class BrickGrid {
                         ball.y < brick.y + brick.height
                     ) {
                         this.bricks[row][col] = null;
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 }
 export default BrickGrid;
