@@ -50,7 +50,9 @@ class BrickGrid {
     draw(ctx) {
         for (let row = 0; row < this.brickRowCount; row++) {
             for (let col = 0; col < this.brickColumnCount; col++) {
-                this.bricks[row][col].draw(ctx);
+                if (this.bricks[row][col]) {
+                    this.bricks[row][col].draw(ctx);
+                }
             }
         }
     }
@@ -75,4 +77,5 @@ class BrickGrid {
         return false;
     }
 }
+
 export default BrickGrid;
