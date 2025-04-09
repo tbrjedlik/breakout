@@ -29,27 +29,28 @@ export class Ball {
 
     move() {
         if (!this.started) return;
-
+    
         this.x += this.speedX;
         this.y += this.speedY;
-
+    
         if (this.x + this.radius > this.canvas.width || this.x - this.radius < 0) {
             this.speedX = -this.speedX;
         }
         if (this.y - this.radius < 0) {
             this.speedY = -this.speedY;
         }
-
+    
         if (
             this.y + this.radius > this.canvas.height - this.paddle.height - 10 &&
-            this.x > this.paddle.center &&
-            this.x < this.paddle.center + this.paddle.width
+            this.y - this.radius < this.canvas.height - 10 &&
+            this.x + this.radius > this.paddle.center &&
+            this.x - this.radius < this.paddle.center + this.paddle.width
         ) {
             this.speedY = -Math.abs(this.speedY);
             const hitPoint = (this.x - this.paddle.center) / (this.paddle.width / 2);
             this.speedX = hitPoint * 1.5;
         }
-
+    
         if (this.bricks && this.bricks.checkCollision(this)) {
             this.speedY = -this.speedY;
         }
