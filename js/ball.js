@@ -8,6 +8,15 @@ export class Ball {
         this.canvas = canvas;
         this.paddle = paddle;
         this.bricks = bricks;
+        this.started = false;
+
+        document.addEventListener("keydown", this.keyDownHandler.bind(this));
+    }
+
+    keyDownHandler(e) {
+        if (!this.started && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
+            this.started = true;
+        }
     }
 
     draw(ctx) {
@@ -19,6 +28,8 @@ export class Ball {
     }
 
     move() {
+        if (!this.started) return;
+
         this.x += this.speedX;
         this.y += this.speedY;
 
