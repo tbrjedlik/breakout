@@ -1,6 +1,7 @@
 body {
     margin: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -13,7 +14,60 @@ canvas {
 .silkscreen-regular {
     font-family: "Silkscreen", sans-serif;
     font-weight: 400;
+    font-size: 25px;
     font-style: normal;
 }
 
-  
+#scoreboard {
+    width: 576px;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 10px;
+}
+#scoreboard .high-score {
+    text-align: left;
+}
+#scoreboard .lives {
+    text-align: center;
+    flex: 1;
+}
+#scoreboard .score {
+    text-align: right;
+}
+#gameOverScreen {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 576px;
+    height: 768px;
+}
+#gameOverScreen h1 {
+    font-size: 48px;
+    margin: 10px 0;
+}
+#gameOverScreen p {
+    font-size: 24px;
+    margin: 10px 0;
+}
+#gameOverScreen button {
+    font-size: 20px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+#gameOverScreen button:hover {
+    background-color: red;
+    color: #fff;
+}
