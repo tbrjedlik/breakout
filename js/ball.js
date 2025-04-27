@@ -1,5 +1,5 @@
 export class Ball {
-    constructor(x, y, radius, speedX, speedY, canvas, paddle, bricks) {
+    constructor(x, y, radius, speedX, speedY, canvas, paddle, bricks, scoreboard) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -8,6 +8,7 @@ export class Ball {
         this.canvas = canvas;
         this.paddle = paddle;
         this.bricks = bricks;
+        this.scoreboard = scoreboard;
         this.started = false;
 
         document.addEventListener("keydown", this.keyDownHandler.bind(this));
@@ -53,6 +54,7 @@ export class Ball {
     
         if (this.bricks && this.bricks.checkCollision(this)) {
             this.speedY = -this.speedY;
+            this.scoreboard.addPoint();
         }
     }
 }
