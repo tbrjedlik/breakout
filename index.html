@@ -10,10 +10,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <canvas id="gameCanvas" width="576" height="768">
-        
-    </canvas>
+    <div id="scoreboard">
+        <span class="high-score silkscreen-regular">High Score: 0</span>
+        <span class="lives silkscreen-regular">Lives: 3</span>
+        <span class="score silkscreen-regular">Score: 0</span>
+    </div>
+    <canvas id="gameCanvas" width="576" height="768"></canvas>
+    <div id="gameOverScreen">
+        <h1 class="silkscreen-regular">
+            <span style="color: red;">G</span><span style="color: yellow;">a</span><span style="color: cyan;">m</span><span style="color: greenyellow;">e</span> 
+            <span style="color: cyan;">O</span><span style="color: greenyellow;">v</span><span style="color: red;">e</span><span style="color: orange;">r</span>
+        </h1>
+        <p class="silkscreen-regular" id="finalScore">Score: 0</p>
+        <p class="silkscreen-regular" id="highScore">High Score: 0</p>
+        <button class="silkscreen-regular" onclick="restartGame()">Restart</button>
+    </div>
 
     <script type="module" src="js/game.js"></script>
+
 </body>
 </html>
