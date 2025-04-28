@@ -74,6 +74,7 @@ function gameLoop() {
         }
     }
 
+    scoreboard.render(); // Draw hearts on the heartsCanvas every frame
     requestAnimationFrame(gameLoop);
 }
 

@@ -7,36 +7,47 @@ body {
     height: 100vh;
     background-color: #000;
 }
-canvas {
+
+canvas#gameCanvas {
     border: 1px solid #fff;
 }
 
 .silkscreen-regular {
     font-family: "Silkscreen", sans-serif;
     font-weight: 400;
-    font-size: 25px;
     font-style: normal;
 }
 
+/* Új scoreboard */
 #scoreboard {
     width: 576px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     color: #fff;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
     margin-bottom: 10px;
+    padding: 0 20px;
 }
-#scoreboard .high-score {
-    text-align: left;
+
+/* Lives bal oldalt */
+#livesContainer {
+    display: flex;
+    align-items: center;
 }
-#scoreboard .lives {
-    text-align: center;
-    flex: 1;
+
+/* Szívek canvas */
+#heartsCanvas {
+    height: 40px;
+    margin-top: 8px;
 }
-#scoreboard .score {
-    text-align: right;
+
+/* Score jobb oldalt */
+#scoreContainer {
+    font-size: 55px; /* nagy szám */
+    white-space: nowrap;
 }
+
+/* Game Over screen ugyanaz marad */
 #gameOverScreen {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.8);
@@ -50,14 +61,17 @@ canvas {
     width: 576px;
     height: 768px;
 }
+
 #gameOverScreen h1 {
     font-size: 48px;
     margin: 10px 0;
 }
+
 #gameOverScreen p {
     font-size: 24px;
     margin: 10px 0;
 }
+
 #gameOverScreen button {
     font-size: 20px;
     margin-top: 10px;
@@ -67,6 +81,7 @@ canvas {
     border: none;
     border-radius: 5px;
 }
+
 #gameOverScreen button:hover {
     background-color: red;
     color: #fff;
