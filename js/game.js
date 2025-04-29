@@ -15,6 +15,7 @@ let ball = new Ball(canvas.width / 2, canvas.height / 2, 10, ballSpeedX, 4, canv
 
 let game = true;
 let waitingForBall = false;
+let gameEnding = false;
 
 function randomFloat(min, max) {
     return Math.random() * (max - min) + min;
@@ -37,6 +38,7 @@ function restartGame() {
     ball.started = true;
     game = true;
     waitingForBall = false;
+    gameEnding = false;
     document.getElementById('gameOverScreen').style.display = 'none';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     gameLoop();
@@ -50,6 +52,12 @@ async function resetBallAfterLifeLoss() {
     ball.speedX = randomFloat(-4, 4);
     ball.started = true;
     waitingForBall = false;
+}
+
+async function endGameWithDelay() {
+    await wait(1000);
+    game = false;
+    scoreboard.showGameOver();
 }
 
 function gameLoop() {
@@ -69,14 +77,13 @@ function gameLoop() {
         ball.draw(ctx);
     }
 
-    if (ball.y > canvas.height && !waitingForBall) {
+    if (ball.y > canvas.height && !waitingForBall && !gameEnding) {
         if (scoreboard.loseLife()) {
-            game = false;
-            playSound('sounds/game_over.wav')
-            scoreboard.showGameOver();
-            return;
+            gameEnding = true;
+            playSound('sounds/game_over.wav');
+            endGameWithDelay();
         } else {
-            playSound('sounds/lose_life.wav')
+            playSound('sounds/lose_life.wav');
             resetBallAfterLifeLoss();
         }
     }

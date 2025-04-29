@@ -8,7 +8,12 @@ export class Scoreboard {
         this.score = 0;
         this.highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
         this.lives = 3;
-        this.scoreElement = document.getElementById('scoreContainer'); // <- új
+        this.scoreElement = document.getElementById('scoreContainer');
+        this.blinking = false;
+        this.blinkCount = 0;
+        this.maxBlinks = 6;
+        this.blinkInterval = 100;
+        this.lastLostLife = this.lives;
         this.updateDisplay();
     }
 
@@ -49,6 +54,37 @@ export class Scoreboard {
                 }
             }
         }
+
+        if (this.blinking && this.blinkCount < this.maxBlinks) {
+            const xOffset = (this.lastLostLife - 1) * 44;
+            const yOffset = 0;
+            if (this.blinkCount % 2 === 0) {
+                for (let y = 0; y < 12; y++) {
+                    for (let x = 0; x < 12; x++) {
+                        if (heartPattern[y][x] === 1) {
+                            this.heartsCtx.fillStyle = '#ffffff';
+                            this.heartsCtx.fillRect(xOffset + x * pixelSize, yOffset + y * pixelSize, pixelSize, pixelSize);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    startBlinking() {
+        this.blinking = true;
+        this.blinkCount = 0;
+        const blink = () => {
+            if (this.blinkCount < this.maxBlinks) {
+                this.drawHearts();
+                this.blinkCount++;
+                setTimeout(blink, this.blinkInterval);
+            } else {
+                this.blinking = false;
+                this.updateDisplay();
+            }
+        };
+        blink();
     }
 
     render() {
@@ -66,13 +102,15 @@ export class Scoreboard {
 
     loseLife() {
         this.lives--;
-        this.updateDisplay();
+        this.lastLostLife = this.lives + 1;
+        this.startBlinking();
         return this.lives <= 0;
     }
 
     reset() {
         this.score = 0;
         this.lives = 3;
+        this.blinking = false;
         this.updateDisplay();
     }
 
