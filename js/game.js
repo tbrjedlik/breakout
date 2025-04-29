@@ -128,9 +128,6 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-function gameLoop() {
-    if (!game) {
-        return;
 function startLevelTransitionDelay() {
     if (!levelClearedTime) {
         levelClearedTime = performance.now();
