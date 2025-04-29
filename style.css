@@ -6,6 +6,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #000;
+    overflow: hidden;
 }
 
 canvas#gameCanvas {
@@ -18,7 +19,6 @@ canvas#gameCanvas {
     font-style: normal;
 }
 
-/* Új scoreboard */
 #scoreboard {
     width: 576px;
     display: flex;
@@ -29,25 +29,21 @@ canvas#gameCanvas {
     padding: 0 20px;
 }
 
-/* Lives bal oldalt */
 #livesContainer {
     display: flex;
     align-items: center;
 }
 
-/* Szívek canvas */
 #heartsCanvas {
     height: 40px;
     margin-top: 8px;
 }
 
-/* Score jobb oldalt */
 #scoreContainer {
-    font-size: 55px; /* nagy szám */
+    font-size: 55px;
     white-space: nowrap;
 }
 
-/* Game Over screen ugyanaz marad */
 #gameOverScreen {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.8);
@@ -58,8 +54,8 @@ canvas#gameCanvas {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 576px;
-    height: 768px;
+    width: 1000px;
+    height: 1000px;
 }
 
 #gameOverScreen h1 {
