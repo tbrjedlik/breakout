@@ -36,7 +36,7 @@ function restartGame() {
     paddle.center = (canvas.width - paddle.width) / 2;
     bricks = new BrickGrid(canvas.width);
     ball = new Ball(canvas.width / 2, canvas.height / 2, 10, randomFloat(-4, 4), 4, canvas, paddle, bricks, scoreboard);
-    ball.started = true;
+    ball.started = false;
     game = true;
     waitingForBall = false;
     gameEnding = false;
@@ -59,6 +59,7 @@ async function endGameWithDelay() {
     await wait(1000);
     game = false;
     scoreboard.showGameOver();
+    buttonSounds();
 }
 
 function gameLoop() {
@@ -97,12 +98,17 @@ function buttonSounds() {
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => {
         button.addEventListener('mouseover', () => {
-            playSound('sounds/button_hover.wav', 0.2);
+            playSound('sounds/button_hover.wav', 0.05);
         });
         button.addEventListener('click', () => {
             playSound('sounds/button_click.wav', 1);
         });
     });
+
+    const restartButton = document.getElementById('restartButton');
+    if (restartButton) {
+        restartButton.addEventListener('click', restartGame);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', buttonSounds);
