@@ -59,8 +59,8 @@ export class Ball {
             this.x - this.radius < this.paddle.center + this.paddle.width
         ) {
             this.speedY = -Math.abs(this.speedY);
-            const hitPoint = (this.x - this.paddle.center) / (this.paddle.width / 2);
-            this.speedX = hitPoint * 1.5;
+            const hitPoint = (this.x - (this.paddle.center + this.paddle.width / 2)) / (this.paddle.width / 2);
+            this.speedX = hitPoint * 4;
             if (!gameEnding){
                 playSound('sounds/ball_bounce.wav', 0.7);
             }
