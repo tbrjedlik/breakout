@@ -76,11 +76,12 @@ function startLevelTransitionDelay() {
 
 function tryStartNewLevel() {
     const now = performance.now();
-    if (levelClearedTime && now - levelClearedTime >= 3000) {
+    if (levelClearedTime && now - levelClearedTime >= 5000) {
         levelClearedTime = null;
         bricks = new BrickGrid(canvas.width);
         ball.updateBricks(bricks);
         isLoadingNewLevel = false;
+        playSound('sounds/next_level.wav',0.7);
     }
 }
 
