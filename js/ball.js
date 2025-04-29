@@ -20,6 +20,7 @@ export class Ball {
     keyDownHandler(e) {
         if (!this.started && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
             this.started = true;
+            playSound('sounds/ball_launch.wav', 0.3);
         }
     }
 

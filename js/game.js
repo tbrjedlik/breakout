@@ -47,16 +47,17 @@ function restartGame() {
 
 async function resetBallAfterLifeLoss() {
     waitingForBall = true;
-    await wait(1000);
+    await wait(2000);
     ball.x = randomFloat(50, canvas.width - 50);
     ball.y = canvas.height / 2;
     ball.speedX = randomFloat(-4, 4);
     ball.started = true;
     waitingForBall = false;
+    playSound('sounds/ball_launch.wav', 0.3);
 }
 
 async function endGameWithDelay() {
-    await wait(1000);
+    await wait(1500);
     game = false;
     scoreboard.showGameOver();
     buttonSounds();
