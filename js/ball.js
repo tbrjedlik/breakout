@@ -38,7 +38,14 @@ export class Ball {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (this.x + this.radius > this.canvas.width || this.x - this.radius < 0) {
+        if (this.x + this.radius > this.canvas.width) {
+            this.x = this.canvas.width - this.radius;
+            this.speedX = -this.speedX;
+            if (!gameEnding){
+                playSound('sounds/ball_bounce.wav', 0.7);
+            }
+        } else if (this.x - this.radius < 0) {
+            this.x = this.radius;
             this.speedX = -this.speedX;
             if (!gameEnding){
                 playSound('sounds/ball_bounce.wav', 0.7);
@@ -46,6 +53,7 @@ export class Ball {
         }
 
         if (this.y - this.radius < 0) {
+            this.y = this.radius;
             this.speedY = -this.speedY;
             if (!gameEnding){
                 playSound('sounds/ball_bounce.wav', 0.7);
