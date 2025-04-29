@@ -22,8 +22,8 @@ class Brick {
 class BrickGrid {
     constructor(canvasWidth) {
         this.bricks = [];
-        this.brickRowCount = 3;
-        this.brickColumnCount = 2;
+        this.brickRowCount = 5;
+        this.brickColumnCount = 7;
         this.brickWidth = 75;
         this.brickHeight = 20;
         this.brickPadding = 10;
