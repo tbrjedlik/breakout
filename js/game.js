@@ -93,4 +93,18 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
+function buttonSounds() {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('mouseover', () => {
+            playSound('sounds/button_hover.wav', 0.2);
+        });
+        button.addEventListener('click', () => {
+            playSound('sounds/button_click.wav', 1);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', buttonSounds);
+
 gameLoop();
