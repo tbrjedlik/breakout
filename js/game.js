@@ -24,6 +24,11 @@ function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+export function playSound(src) {
+    const sound = new Audio(src);
+    sound.play();
+}
+
 function restartGame() {
     scoreboard.reset();
     paddle.center = (canvas.width - paddle.width) / 2;
@@ -67,14 +72,16 @@ function gameLoop() {
     if (ball.y > canvas.height && !waitingForBall) {
         if (scoreboard.loseLife()) {
             game = false;
+            playSound('sounds/game_over.wav')
             scoreboard.showGameOver();
             return;
         } else {
+            playSound('sounds/lose_life.wav')
             resetBallAfterLifeLoss();
         }
     }
 
-    scoreboard.render(); // Draw hearts on the heartsCanvas every frame
+    scoreboard.render();
     requestAnimationFrame(gameLoop);
 }
 
