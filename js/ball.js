@@ -18,9 +18,14 @@ export class Ball {
     }
 
     keyDownHandler(e) {
-        if (!this.started && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
-            this.started = true;
-        }
+    if (!this.started && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
+        this.started = true;
+        playSound('sounds/ball_launch.wav', 0.3);
+    }
+}
+
+    updateBricks(newBricks) {
+        this.bricks = newBricks;
     }
 
     draw(ctx) {
@@ -37,7 +42,14 @@ export class Ball {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (this.x + this.radius > this.canvas.width || this.x - this.radius < 0) {
+        if (this.x + this.radius > this.canvas.width) {
+            this.x = this.canvas.width - this.radius;
+            this.speedX = -this.speedX;
+            if (!gameEnding){
+                playSound('sounds/ball_bounce.wav', 0.7);
+            }
+        } else if (this.x - this.radius < 0) {
+            this.x = this.radius;
             this.speedX = -this.speedX;
             if (!gameEnding){
                 playSound('sounds/ball_bounce.wav', 0.7);
@@ -45,6 +57,7 @@ export class Ball {
         }
 
         if (this.y - this.radius < 0) {
+            this.y = this.radius;
             this.speedY = -this.speedY;
             if (!gameEnding){
                 playSound('sounds/ball_bounce.wav', 0.7);
@@ -58,8 +71,8 @@ export class Ball {
             this.x - this.radius < this.paddle.center + this.paddle.width
         ) {
             this.speedY = -Math.abs(this.speedY);
-            const hitPoint = (this.x - this.paddle.center) / (this.paddle.width / 2);
-            this.speedX = hitPoint * 1.5;
+            const hitPoint = (this.x - (this.paddle.center + this.paddle.width / 2)) / (this.paddle.width / 2);
+            this.speedX = hitPoint * 4;
             if (!gameEnding){
                 playSound('sounds/ball_bounce.wav', 0.7);
             }

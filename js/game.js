@@ -9,6 +9,9 @@ const ctx = canvas.getContext("2d");
 const paddle = new Paddle(50, 10, "#0000FF", canvas);
 let bricks = new BrickGrid(canvas.width);
 let scoreboard = new Scoreboard(canvas, bricks);
+let isLoadingNewLevel = false;
+let levelClearedTime = null;
+let currentLevel = 0;
 
 let ballSpeedX = randomFloat(-4, 4);
 let ball = new Ball(canvas.width / 2, canvas.height / 2, 10, ballSpeedX, 4, canvas, paddle, bricks, scoreboard);
@@ -42,6 +45,8 @@ function restartGame() {
     waitingForBall = false;
     gameEnding = false;
     gameStarted = false;
+    currentLevel = 0;
+    levelClearedTime = null;
     document.getElementById('gameOverScreen').style.display = 'none';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = "30px Silkscreen";
@@ -50,16 +55,17 @@ function restartGame() {
 
 async function resetBallAfterLifeLoss() {
     waitingForBall = true;
-    await wait(1000);
+    await wait(2000);
     ball.x = randomFloat(50, canvas.width - 50);
     ball.y = canvas.height / 2;
     ball.speedX = randomFloat(-4, 4);
     ball.started = true;
     waitingForBall = false;
+    playSound('sounds/ball_launch.wav', 0.3);
 }
 
 async function endGameWithDelay() {
-    await wait(1000);
+    await wait(1500);
     game = false;
     scoreboard.showGameOver();
     buttonSounds();
@@ -125,7 +131,25 @@ document.addEventListener("keydown", (e) => {
 function gameLoop() {
     if (!game) {
         return;
+function startLevelTransitionDelay() {
+    if (!levelClearedTime) {
+        levelClearedTime = performance.now();
     }
+}
+
+function tryStartNewLevel() {
+    const now = performance.now();
+    if (levelClearedTime && now - levelClearedTime >= 5000) {
+        levelClearedTime = null;
+        bricks = new BrickGrid(canvas.width);
+        ball.updateBricks(bricks);
+        isLoadingNewLevel = false;
+        playSound('sounds/next_level.wav',0.7);
+    }
+}
+
+function gameLoop() {
+    if (!game) return;
 
     if (!gameStarted) {
         ctx.font = "30px Silkscreen";
@@ -143,6 +167,16 @@ function gameLoop() {
     if (!waitingForBall) {
         ball.move();
         ball.draw(ctx);
+    }
+
+    if (bricks.allCleared() && !isLoadingNewLevel) {
+        isLoadingNewLevel = true;
+        currentLevel++;
+        startLevelTransitionDelay();
+    }
+
+    if (isLoadingNewLevel) {
+        tryStartNewLevel();
     }
 
     if (ball.y > canvas.height && !waitingForBall && !gameEnding) {
@@ -180,3 +214,4 @@ function buttonSounds() {
 document.addEventListener('DOMContentLoaded', buttonSounds);
 
 showControlScreen();
+gameLoop();
