@@ -15,7 +15,7 @@ let ball = new Ball(canvas.width / 2, canvas.height / 2, 10, ballSpeedX, 4, canv
 
 let game = true;
 let waitingForBall = false;
-let gameEnding = false;
+export let gameEnding = false;
 
 function randomFloat(min, max) {
     return Math.random() * (max - min) + min;
@@ -25,8 +25,9 @@ function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function playSound(src) {
+export function playSound(src, volume = 1) {
     const sound = new Audio(src);
+    sound.volume = volume;
     sound.play();
 }
 
@@ -80,10 +81,10 @@ function gameLoop() {
     if (ball.y > canvas.height && !waitingForBall && !gameEnding) {
         if (scoreboard.loseLife()) {
             gameEnding = true;
-            playSound('sounds/game_over.wav');
+            playSound('sounds/game_over.wav', 0.3);
             endGameWithDelay();
         } else {
-            playSound('sounds/lose_life.wav');
+            playSound('sounds/lose_life.wav', 0.3);
             resetBallAfterLifeLoss();
         }
     }

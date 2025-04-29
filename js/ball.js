@@ -1,4 +1,5 @@
 import { playSound } from "./game.js";
+import { gameEnding } from "./game.js";
 
 export class Ball {
     constructor(x, y, radius, speedX, speedY, canvas, paddle, bricks, scoreboard) {
@@ -38,12 +39,16 @@ export class Ball {
 
         if (this.x + this.radius > this.canvas.width || this.x - this.radius < 0) {
             this.speedX = -this.speedX;
-            playSound('sounds/ball_bounce.wav');
+            if (!gameEnding){
+                playSound('sounds/ball_bounce.wav', 0.7);
+            }
         }
 
         if (this.y - this.radius < 0) {
             this.speedY = -this.speedY;
-            playSound('sounds/ball_bounce.wav');
+            if (!gameEnding){
+                playSound('sounds/ball_bounce.wav', 0.7);
+            }
         }
 
         if (
@@ -55,7 +60,9 @@ export class Ball {
             this.speedY = -Math.abs(this.speedY);
             const hitPoint = (this.x - this.paddle.center) / (this.paddle.width / 2);
             this.speedX = hitPoint * 1.5;
-            playSound('sounds/ball_bounce.wav');
+            if (!gameEnding){
+                playSound('sounds/ball_bounce.wav', 0.7);
+            }
         }
 
         if (this.bricks && this.bricks.checkCollision(this)) {
