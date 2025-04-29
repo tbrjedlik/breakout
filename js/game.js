@@ -16,6 +16,7 @@ let ball = new Ball(canvas.width / 2, canvas.height / 2, 10, ballSpeedX, 4, canv
 let game = true;
 let waitingForBall = false;
 export let gameEnding = false;
+let gameStarted = false; // Flag to track if the game has started
 
 function randomFloat(min, max) {
     return Math.random() * (max - min) + min;
@@ -40,9 +41,11 @@ function restartGame() {
     game = true;
     waitingForBall = false;
     gameEnding = false;
+    gameStarted = false;
     document.getElementById('gameOverScreen').style.display = 'none';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    gameLoop();
+    ctx.font = "30px Silkscreen";
+    showControlScreen();
 }
 
 async function resetBallAfterLifeLoss() {
@@ -62,8 +65,71 @@ async function endGameWithDelay() {
     buttonSounds();
 }
 
+function showControlScreen() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "60px Silkscreen";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+
+    const colors = ["red", "orange", "yellow", "yellowgreen", "cyan"];
+    const title = "BREAKOUT";
+    
+    const titleWidth = ctx.measureText(title).width;
+    let currentX = canvas.width / 2 - titleWidth / 2;
+
+    for (let i = 0; i < title.length; i++) {
+        const letter = title[i];
+        ctx.fillStyle = colors[i % colors.length]; // Cycle through colors
+        const letterWidth = ctx.measureText(letter).width;
+        ctx.fillText(letter, currentX + letterWidth / 2, canvas.height / 4);
+        currentX += letterWidth; // Move to the next letter's position
+    }
+
+    ctx.fillStyle = "white";
+    ctx.font = "20px Silkscreen";
+    ctx.fillText("Move Paddle:", canvas.width / 2, canvas.height / 2 + 80);
+
+    ctx.beginPath();
+    ctx.rect(canvas.width / 2 - 60, canvas.height / 2 + 100, 30, 30);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+    ctx.fillStyle = "black";
+    ctx.font = "20px Silkscreen";
+    ctx.fillText("<", canvas.width / 2 - 45, canvas.height / 2 + 120);
+
+    ctx.beginPath();
+    ctx.rect(canvas.width / 2 + 30, canvas.height / 2 + 100, 30, 30);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+    ctx.fillStyle = "black";
+    ctx.fillText(">", canvas.width / 2 + 45, canvas.height / 2 + 120);
+
+    paddle.draw(ctx);
+    ball.draw(ctx);
+
+    ctx.font = "20px Silkscreen";
+    ctx.fillText("Press UP Arrow Key to Start", canvas.width / 2, canvas.height * 3 / 4);
+}
+
+document.addEventListener("keydown", (e) => {
+    if (!gameStarted && (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+        gameStarted = true;
+        ball.started = true;
+        gameLoop();
+    }
+});
+
 function gameLoop() {
     if (!game) {
+        return;
+    }
+
+    if (!gameStarted) {
+        ctx.font = "30px Silkscreen";
+        showControlScreen();
         return;
     }
 
@@ -113,4 +179,4 @@ function buttonSounds() {
 
 document.addEventListener('DOMContentLoaded', buttonSounds);
 
-gameLoop();
+showControlScreen();
