@@ -22,8 +22,8 @@ class Brick {
 class BrickGrid {
     constructor(canvasWidth) {
         this.bricks = [];
-        this.brickRowCount = 5;
-        this.brickColumnCount = 9;
+        this.brickRowCount = 3;
+        this.brickColumnCount = 2;
         this.brickWidth = 75;
         this.brickHeight = 20;
         this.brickPadding = 10;
@@ -75,6 +75,18 @@ class BrickGrid {
             }
         }
         return false;
+    }
+
+    allCleared() {
+        for (let row = 0; row < this.brickRowCount; row++) {
+            for (let col = 0; col < this.brickColumnCount; col++) {
+                const brick = this.bricks[row][col];
+                if (brick && brick.status === 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 

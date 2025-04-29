@@ -18,10 +18,14 @@ export class Ball {
     }
 
     keyDownHandler(e) {
-        if (!this.started && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
-            this.started = true;
-            playSound('sounds/ball_launch.wav', 0.3);
-        }
+    if (!this.started && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
+        this.started = true;
+        playSound('sounds/ball_launch.wav', 0.3);
+    }
+}
+
+    updateBricks(newBricks) {
+        this.bricks = newBricks;
     }
 
     draw(ctx) {

@@ -9,6 +9,9 @@ const ctx = canvas.getContext("2d");
 const paddle = new Paddle(50, 10, "#0000FF", canvas);
 let bricks = new BrickGrid(canvas.width);
 let scoreboard = new Scoreboard(canvas, bricks);
+let isLoadingNewLevel = false;
+let levelClearedTime = null;
+let currentLevel = 0;
 
 let ballSpeedX = randomFloat(-4, 4);
 let ball = new Ball(canvas.width / 2, canvas.height / 2, 10, ballSpeedX, 4, canvas, paddle, bricks, scoreboard);
@@ -40,6 +43,8 @@ function restartGame() {
     game = true;
     waitingForBall = false;
     gameEnding = false;
+    currentLevel = 0;
+    levelClearedTime = null;
     document.getElementById('gameOverScreen').style.display = 'none';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     gameLoop();
@@ -63,10 +68,24 @@ async function endGameWithDelay() {
     buttonSounds();
 }
 
-function gameLoop() {
-    if (!game) {
-        return;
+function startLevelTransitionDelay() {
+    if (!levelClearedTime) {
+        levelClearedTime = performance.now();
     }
+}
+
+function tryStartNewLevel() {
+    const now = performance.now();
+    if (levelClearedTime && now - levelClearedTime >= 3000) {
+        levelClearedTime = null;
+        bricks = new BrickGrid(canvas.width);
+        ball.updateBricks(bricks);
+        isLoadingNewLevel = false;
+    }
+}
+
+function gameLoop() {
+    if (!game) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -78,6 +97,16 @@ function gameLoop() {
     if (!waitingForBall) {
         ball.move();
         ball.draw(ctx);
+    }
+
+    if (bricks.allCleared() && !isLoadingNewLevel) {
+        isLoadingNewLevel = true;
+        currentLevel++;
+        startLevelTransitionDelay();
+    }
+
+    if (isLoadingNewLevel) {
+        tryStartNewLevel();
     }
 
     if (ball.y > canvas.height && !waitingForBall && !gameEnding) {
@@ -113,5 +142,4 @@ function buttonSounds() {
 }
 
 document.addEventListener('DOMContentLoaded', buttonSounds);
-
 gameLoop();
