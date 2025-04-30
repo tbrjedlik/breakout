@@ -19,7 +19,7 @@ let ball = new Ball(canvas.width / 2, canvas.height / 2, 10, ballSpeedX, 4, canv
 let game = true;
 let waitingForBall = false;
 export let gameEnding = false;
-let gameStarted = false; // Flag to track if the game has started
+let gameStarted = false;
 
 function randomFloat(min, max) {
     return Math.random() * (max - min) + min;
@@ -86,10 +86,10 @@ function showControlScreen() {
 
     for (let i = 0; i < title.length; i++) {
         const letter = title[i];
-        ctx.fillStyle = colors[i % colors.length]; // Cycle through colors
+        ctx.fillStyle = colors[i % colors.length];
         const letterWidth = ctx.measureText(letter).width;
         ctx.fillText(letter, currentX + letterWidth / 2, canvas.height / 4);
-        currentX += letterWidth; // Move to the next letter's position
+        currentX += letterWidth;
     }
 
     ctx.fillStyle = "white";
